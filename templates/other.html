@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+
+{% block title %} Index Page {% endblock %} 
+
+{% block content %}
+
+<ul>
+    {% for item in my_fruits %}
+        <li {% if item[-1] == "e" %} style="color: blue; font-size:20px" {% endif %} style="font-size:20px">{{ item }}</li>
+    {% endfor %}
+</ul>
+
+{# Jinja Filters #}
+<h3>{{ some_text | upper }}</h3>  
+<h3>{{ some_text | lower }}</h3>
+<h3>{{ some_text | capitalize }}</h3>
+<h3>{{ some_text | title }}</h3>
+<h3>{{ some_text | replace("text", "paragraph") }}</h3>
+
+{# custom filter #}
+<h3>{{ some_text | reverse_string }}</h3>
+<h3>{{ some_text | repeat }}</h3>
+<h3>{{ some_text | repeat(4) }}</h3>
+<h3>{{ alter_text | alternate_case }}</h3>
+<h3>{{ alter_text | swap_case }}</h3>
+
+{# redirect and dynamic url path #}
+<a href="{{ url_for("index") }}">To Home Page</a>
+
+
+{% endblock %}
+

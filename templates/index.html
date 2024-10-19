@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flask Project</title>
+  </head>
+  <body>
+    <h1>This is Flask Project</h1>
+    <h2>{{my_value}}</h2>
+
+    {# 
+      {% comment %} <ul>
+        {% for item in my_list %} {% if item.startswith("D") or
+        item.startswith("J") %}
+        <li style="color: blue; font-size: 20px">{{ item }}</li>
+        {% else %}
+        <li style="font-size: 20px">{{item}}</li>
+        {% endif %} {% endfor %}
+      </ul> {% endcomment %}
+    #}
+    
+    <ul>
+      {% for item in my_list %}
+      <li {% if item[0] == "J" or item[0] == "D" %} style="color: blue; font-size:20px"  {% endif %} style="font-size:20px" >{{ item }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>{{ my_value | reverse_string }}</h2>
+    
+    {# redirect and dynamic url path #}
+    <a href="{{ url_for("other") }}">To Other Page</a>
+
+    <a href="{{url_for("redirect_endpoint")}}">To Redirect Endpoint - Other</a>
+  </body>
+</html>
+
+

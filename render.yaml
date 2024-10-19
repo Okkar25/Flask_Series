@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: my-flask-api
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"  # Assuming 'app' is your Flask app instance
+    envVars:
+      - key: API_KEY
+        value: YOUR_API_KEY_HERE  # Optional: Set environment variables
+
