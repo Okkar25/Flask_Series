@@ -1,9 +1,18 @@
 {
   "cSpell.words": [
+    "aung",
+    "elif",
+    "enctype",
     "endfor",
+    "fileupload",
     "gunicorn",
     "hellokitty",
     "islower",
+    "officedocument",
+    "okkar",
+    "openpyxl",
+    "openxmlformats",
+    "spreadsheetml",
     "startswith",
     "Werkzeug"
   ]

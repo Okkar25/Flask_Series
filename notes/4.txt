@@ -1,0 +1,141 @@
+handling forms 
+
+
+<form action="" method="POST">
+    <input type="text" name="from_data">
+
+    <button type="submit">Submit</button>
+</form>
+
+
+{% if form_data %}
+    {% for item in form_data %}
+        <h1>{{ item }}</h1>
+    {% endfor %}
+{% else %}
+    <h1>Hello World</h1>
+{% endif %}
+
+
+from flask import Flask, render_template, request
+
+app = Flask(__name__, template_folder="templates")
+
+
+@app.route("/", methods=["GET", "POST"])
+@app.route("/index", methods=["GET", "POST"])
+def index():
+    data_list = []
+    
+    if request.method == "POST":
+        form_data = request.form.get("from_data")
+        
+        if form_data:
+            data_list.append(form_data)
+    return render_template("file_req_4.html", form_data=data_list)
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
+
+
+POST method will reset the form data => so appending into [] will not work 
+
+for persistent data => use session 
+
+from flask import Flask, render_template, request, session
+
+app = Flask(__name__, template_folder="templates")
+app.secret_key = "alpha"
+
+
+@app.route("/", methods=["GET", "POST"])
+@app.route("/index", methods=["GET", "POST"])
+def index():
+    if "data_list" not in session:
+        session["data_list"] = []
+
+    if request.method == "POST":
+        form_data = request.form.get("from_data")
+
+        if form_data:
+            session["data_list"].append(form_data)
+            session.modified = True
+            
+    return render_template("file_req_4.html", form_data=session["data_list"])
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
+
+
+<form action="{{ url_for("file_upload") }}" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain">
+</form>
+
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet  => .xlsx 
+application/vnd.ms-excel                                           => .xls 
+
+
+py -m pip install pandas 
+py -m pip install openpyxl 
+
+data_frame = pd.read_excel(file)
+return data_frame.to_html()
+
+
+
+@app.route("/file_upload", methods=["POST"])
+def file_upload():
+    file = request.files["file"]
+
+    if file.content_type == "text/plain":
+        content = file.read().decode("utf-8")
+        return f"<h2><pre>{content}</pre></h2>"
+
+    elif (
+        file.content_type
+        == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        or file.content_type == "application/vnd.ms-excel"
+    ):
+        data_frame = pd.read_excel(file)
+        return data_frame.to_html()
+
+    return (
+        "<h2>Unsupported file type. Please upload a xlsx/xls or plain text file.</h2>"
+    )
+
+
+
+@app.route("/file_upload", methods=["POST"])
+def file_upload():
+    file = request.files["file"]
+
+    if file.content_type == "text/plain":
+        content = file.read().decode("utf-8")
+        return f"<h2><pre>{content}</pre></h2>"
+
+    elif (
+        file.content_type
+        == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        or file.content_type == "application/vnd.ms-excel"
+    ):
+        data_frame = pd.read_excel(file)
+        table_html = data_frame.to_html(classes="wide-table", index=False)
+        custom_css = """
+        <style>
+        .wide-table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+        .wide-table th, .wide-table td {
+            padding: 8px;
+            border: 1px solid black;
+            text-align: left;
+        }
+        </style>
+        
+        """
+
+        return custom_css + table_html
+

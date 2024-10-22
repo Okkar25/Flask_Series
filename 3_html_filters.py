@@ -21,6 +21,14 @@ def other():
     )
 
 
+# redirect
+@app.route("/redirect_endpoint")
+def redirect_endpoint():
+    return redirect(
+        url_for("other")  # finds other function and go to that respective route
+    )
+
+
 # custom jinja filters
 @app.template_filter("reverse_string")
 def reverse_string(value):
@@ -30,7 +38,9 @@ def reverse_string(value):
 @app.template_filter("repeat")
 def repeat(str, times=2):
     # return str * times
-    return " _ ".join([str] * times)
+    return " _ ".join(
+        [str] * times
+    )  # "some text" => ["some text"] * 2 => ["some text", "some text"]
 
 
 @app.template_filter("alternate_case")
@@ -42,13 +52,5 @@ def alternate_case(str):
 def swap_case(str):
     return "".join([c.upper() if c.islower() else c.lower() for c in str])
 
-
-# redirect
-@app.route("/redirect_endpoint")
-def redirect_endpoint():
-    return redirect(
-        url_for("other")  # finds other function and go to that respective route
-    )
-
-
-app.run(host="0.0.0.0", port=8000, debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
