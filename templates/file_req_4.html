@@ -18,6 +18,8 @@
     <input type="submit" value="Login">
    {# <button type="submit">Login</button> #}
 </form>
+<br>
+
 
 <h1>File Upload</h1>
 
@@ -26,6 +28,63 @@
 
     <input type="submit" value="Upload File">
 </form>
+<br>
 
+
+<h1>Convert To CSV</h1>
+
+<form action="{{ url_for("convert_csv") }}" class="upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required="required">
+
+    <input type="submit" value="Convert to CSV">
+</form>
+<br>
+
+
+<h1>Convert To CSV Two</h1>
+
+<form action="{{ url_for("convert_csv_two") }}" class="upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required="required">
+
+    <input type="submit" value="Convert to CSV">
+</form>
+<br>
+
+
+<h1>JavaScript JSON Request</h1>
+
+<button id="post_button">Send POST Request</button>
+<br>
+
+<h3>Response From Server</h3>
+<!-- This div will display the response data -->
+<div id="response_output"></div>
+<br><br><br>
+
+
+<script type="text/javascript">
+    const postButton = document.getElementById("post_button");
+    const responseOutput = document.getElementById("response_output");
+
+    const jsonData = {name: "Okkar", greeting: "Bonjour"};
+
+    postButton.addEventListener("click", () => {
+        fetch("{{ url_for('handle_post') }}", {
+            method: "POST",
+            headers: { "Content-Type" : "application/json; charset=utf-8" },
+            body: JSON.stringify(jsonData)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Success : ", data);
+            responseOutput.innerHTML = `<p>Message : ${data.message}</p> 
+            <p>Received Data : ${data.received_data.greeting}, ${data.received_data.name}!</p>`
+        })
+        .catch(error => {
+            console.error("Error : ", error);
+            responseOutput.innerHTML = `<p>Error: ${error.message}</p>`
+        } )
+    });
+</script>
 
 {% endblock  %}

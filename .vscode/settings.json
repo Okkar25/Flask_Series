@@ -8,6 +8,8 @@
     "gunicorn",
     "hellokitty",
     "islower",
+    "jsonify",
+    "makedirs",
     "officedocument",
     "okkar",
     "openpyxl",

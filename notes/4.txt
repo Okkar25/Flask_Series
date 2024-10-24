@@ -139,3 +139,43 @@ def file_upload():
 
         return custom_css + table_html
 
+
+
+from flask import (
+    Flask,
+    render_template,
+    request,
+    session,
+    redirect,
+    url_for,
+    Response,
+)
+import pandas as pd
+import os
+
+
+STATIC_FOLDER = os.path.join(app.root_path, "static", "downloads")
+
+if not os.path.exists(STATIC_FOLDER):
+    os.makedirs(STATIC_FOLDER)
+
+
+@app.route("/convert_csv", methods=["POST"])
+def convert_csv():
+    file = request.files["file"]
+
+    df = pd.read_excel(file)
+    # csv_file_path = os.path.join(STATIC_FOLDER, "result.csv")
+    # df.to_csv(csv_file_path, index=False, encoding="utf-8")
+
+    # return f"<h2>File successfully saved! <a href='/static/downloads/result.csv' download>Click here to download</a> </h2>"
+
+    response = Response(
+        df.to_csv(index=False, encoding="utf-8"),
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment; filename = result.csv"},
+    )
+
+    return response
+
+
