@@ -18,3 +18,17 @@ input:nth-of-type(2) {
     gap: 10px;
 }
 
+.special {
+    color: blue;
+    font-size: 25px;
+    font-family: sans-serif;
+    cursor: pointer;
+}
+
+p {
+    color: red;
+    font-size: 25px;
+    font-family: serif;
+    cursor: pointer;
+    user-select: none;
+}

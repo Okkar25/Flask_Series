@@ -16,6 +16,8 @@
     "openxmlformats",
     "spreadsheetml",
     "startswith",
+    "stary",
+    "stylesheet",
     "Werkzeug"
   ]
 }
