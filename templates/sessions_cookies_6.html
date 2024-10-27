@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %} Sessions and Cookies {% endblock  %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+{% endblock  %}
+
+
+{#  Message Flashing  #}
+{% block message_flash %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li class="flash">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+    <h1>Sessions</h1>
+
+    {% if session_message %}
+        <h3>{{ session_message }}</h3>
+    {% elif message  %}
+        <h3>{{ message }}</h3>
+    {% else %}
+        <h3>No Session Data to display at the moment</h3>
+    {% endif %}
+
+    <div class="manage_data">
+
+        <a href="{{url_for("set_session")}}">Set Session Data</a>
+        
+        <a href="{{url_for("get_session")}}">Get Session Data</a>
+
+        <a href="{{url_for("clear_session")}}">Clear Session Data</a>
+
+    </div>
+
+    <h1>Cookies</h1>
+
+    {% if cookie_message %}
+        <h3>{{ cookie_message }}</h3>
+    {% elif message  %}
+        <h3>{{ message }}</h3>
+    {% else %}
+        <h3>No Cookies Data to display at the moment</h3>
+    {% endif %}
+
+    <div class="manage_data">
+
+        <a href="{{url_for("set_cookie")}}">Set Cookie Data</a>
+
+        <a href="{{url_for("get_cookie")}}">Get Cookie Data</a>
+        
+        <a href="{{url_for("remove_cookie")}}">Remove Cookie Data</a>
+    </div>
+
+    <h1>Login Page</h1>
+
+    <a href="{{url_for("login")}}">Go to Login Page</a>
+
+{% endblock  %} 

@@ -1,0 +1,171 @@
+Creating a Response Object
+
+
+from flask import Flask, make_response
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    response = make_response("Hello, World!")
+    response.headers['Custom-Header'] = 'MyCustomValue'
+    return response
+
+
+from flask import Flask, Response
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    response = Response("Hello, World!", status=200, mimetype='text/plain')
+    response.headers['Custom-Header'] = 'MyCustomValue'
+    return response
+
+
+-----------------------------------------------------------------------------------------
+
+
+Returning JSON with Custom Status Codes
+
+
+from flask import Flask, jsonify, make_response
+
+app = Flask(__name__)
+
+@app.route('/data')
+def data():
+    data = {"key": "value"}
+    return make_response(jsonify(data), 201)
+
+
+import json
+from flask import Flask, Response
+
+app = Flask(__name__)
+
+@app.route('/data')
+def data():
+    data = {"key": "value"}
+    response = Response(json.dumps(data), status=201, mimetype='application/json')
+    return response
+
+
+-----------------------------------------------------------------------------------------
+
+
+Sending Files
+
+
+from flask import Flask, make_response
+
+app = Flask(__name__)
+
+@app.route('/download')
+def download():
+    file_data = "This is some file content"
+    response = make_response(file_data)
+    response.headers['Content-Disposition'] = 'attachment; filename=myfile.txt'
+    response.mimetype = 'text/plain'
+    return response
+
+
+from flask import Flask, Response
+
+app = Flask(__name__)
+
+@app.route('/download')
+def download():
+    file_data = "This is some file content"
+    response = Response(file_data, mimetype='text/plain')
+    response.headers['Content-Disposition'] = 'attachment; filename=myfile.txt'
+    return response
+
+
+-----------------------------------------------------------------------------------------
+
+
+Setting Cookies
+
+
+from flask import Flask, make_response
+
+app = Flask(__name__)
+
+@app.route('/set_cookie')
+def set_cookie():
+    response = make_response("Setting a cookie")
+    response.set_cookie('mycookie', 'cookie_value')
+    return response
+
+
+=> Setting a Simple Cookie
+
+
+from flask import Flask, Response
+
+app = Flask(__name__)
+
+@app.route('/set_cookie')
+def set_cookie():
+    # Create a Response object with a body (content)
+    response = Response("Cookie is set!", status=200)
+    
+    # Set a cookie
+    response.set_cookie('username', 'JohnDoe')
+
+    # Return the response object
+    return response
+
+
+=> Setting a Cookie with Additional Parameters
+
+
+from flask import Flask, Response
+from datetime import datetime, timedelta
+
+app = Flask(__name__)
+
+@app.route('/set_cookie')
+def set_cookie():
+    # Create a Response object
+    response = Response("Cookie with expiry is set!")
+
+    # Set a cookie with additional options
+    expires = datetime.utcnow() + timedelta(days=7)  # Cookie expires in 7 days
+    response.set_cookie('username', 'JaneDoe', expires=expires, httponly=True, secure=True)
+
+    return response
+
+
+=> Setting Multiple Cookies
+
+
+from flask import Flask, Response
+
+app = Flask(__name__)
+
+@app.route('/set_multiple_cookies')
+def set_multiple_cookies():
+    # Create a Response object
+    response = Response("Multiple cookies are set!")
+
+    # Set multiple cookies
+    response.set_cookie('username', 'JohnDoe')
+    response.set_cookie('session_token', 'abcd1234', httponly=True)
+
+    return response
+
+
+
+=> Accessing cookies
+
+
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/get_cookie')
+def get_cookie():
+    username = request.cookies.get('username')
+    return f'Hello, {username}!'

@@ -1,0 +1,92 @@
+from flask import Flask, render_template, request, session
+
+app.secret_key = "SOME_SECRET_KEY"
+
+@app.route("/set_data")
+def set_data():
+    session["name"] = "Noobmaster69"
+    session["code"] = "RTX4302SOF"
+    return render_template("sessions_cookies_6.html", message="Session Data Set")
+
+
+@app.route("/get_data")
+def get_data():
+    name = session["name"]
+    code = session["code"]
+    return render_template("sessions_cookies_6.html", message=f"Name : {name} and Code : {code}")
+
+
+In browser => cookies => session can be seen 
+Cookies can be accessed by both client and server 
+In browser => cookies => delete cookies data => set_data => shows error => there is no session data 
+
+
+# clearing every session data
+session.clear()
+
+# clearing specific session data
+session.pop("name")
+session.pop("code")
+
+
+==================================================================================================
+
+
+@app.route("/set_cookie")
+def set_cookie():
+    response = make_response(
+        render_template("sessions_cookies_6.html", cookie_message="Cookie Data Set")
+    )
+
+    response.set_cookie(
+        "cookie_name",
+        "My favorite cookie is HTTP Cookie",
+        max_age=60 * 1,  # Expire after One minute
+    )
+    return response
+
+
+@app.route("/get_cookie")
+def get_cookie():
+    if "cookie_name" in request.cookies:
+        cookie_value = request.cookies["cookie_name"]
+        return render_template(
+            "sessions_cookies_6.html", cookie_message=f"Cookie Value : {cookie_value}"
+        )
+    else:
+        return render_template(
+            "sessions_cookies_6.html", cookie_message="There is no Cookies Data :("
+        )
+
+
+@app.route("/remove_cookie")
+def remove_cookie():
+    response = make_response(
+        render_template(
+            "sessions_cookies_6.html", cookie_message="Cookie Data Cleared :)"
+        )
+    )
+    response.set_cookie("cookie_name", expires=0)
+    return response
+
+
+----------------------------------------------------------------------------------------
+
+
+# Message Flashing 
+
+
+{#  Message Flashing  #}
+{% block message_flush %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+{% endblock %}
