@@ -20,6 +20,7 @@
     "startswith",
     "stary",
     "stylesheet",
+    "testpass",
     "Werkzeug"
   ]
 }

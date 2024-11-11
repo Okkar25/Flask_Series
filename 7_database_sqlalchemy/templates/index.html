@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %} Blog Page {% endblock %}
+
+{% block content %}
+
+    <h2>Employees</h2>
+
+    <ul>
+        {% for person in people %}
+            <li>{{ person }} <button class="delBtn" onclick="deletePerson({{ person.pid }})">Delete</button> </li>
+        {% endfor %}
+    </ul>
+
+    <h3>New Empolyee</h3>
+
+    <form action="{{url_for("index")}}" method="POST" class="employees">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="number" name="age" placeholder="Age" required>
+        <input type="text" name="job" placeholder="Job">
+        <input type="text" name="major" placeholder="Major">
+
+        <input type="submit" value="Create">
+    </form>
+
+    <script type="text/javascript">
+
+        // delete?pid=pid0 => will not work
+        function deletePerson (pid) {
+            fetch('{{ url_for("delete", pid=0) }}'.replace("0", pid), { 
+                method: "DELETE"
+            }).then(res => {
+                if (res.ok){
+                    window.location.reload(); // in react, auto-reload => remove the element from the DOM
+                } else {
+                    console.error("Failed to delete item with pid : ", pid)
+                }
+            }).catch(err => console.error("Error during fetching : ", err))
+        }   
+
+    </script>
+
+{% endblock %}

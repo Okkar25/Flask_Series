@@ -1,0 +1,15 @@
+-- database: ./testdb.db
+
+
+INSERT INTO people (name, age, job, major) VALUES ("Okkar", 23, "Software Developer", "Computer Science"), ("Mike", 30,"Data Analyst", "Data Science");
+
+-- SELECT * FROM people;
+
+-- DELETE FROM people WHERE age < 35;
+-- DELETE FROM people WHERE name = 'Sarah';
+
+-- UPDATE people SET name = 'Deborah' WHERE age = '23';
+
+-- INSERT INTO people (name, age, job, major) VALUES ("John", 45, "Manager", "Business");
+
+-- SELECT * FROM people;

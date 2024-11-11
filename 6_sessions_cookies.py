@@ -52,6 +52,7 @@ def clear_session():
 def set_cookie():
     response = make_response(
         render_template("sessions_cookies_6.html", cookie_message="Cookie Data Set")
+        # "Cookie Data Set"
     )
 
     response.set_cookie(

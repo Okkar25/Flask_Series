@@ -1,0 +1,129 @@
+py -m pip install flask-sqlalchemy flask-migrate Flask 
+
+sqlalchemy => orm => connect db tables with classes 
+
+
+# operational error 
+
+flask db init 
+flask db migrate
+flask db upgrade
+
+sqlite3 testdb.db
+SELECT * FROM people 
+
+.schema
+.tables
+.quit 
+
+
+-- database: ./testdb.db
+
+-- INSERT INTO people (name, age, job, major) VALUES ("Okkar", 23, "Software Developer", "Computer Science"), ("Mike", 30,"Data Analyst", "Data Science");
+
+-- SELECT * FROM people;
+
+-- DELETE FROM people WHERE age < 35;
+-- DELETE FROM people WHERE name = 'Okkar';
+
+-- UPDATE people SET name = 'Deborah' WHERE age = '23';
+
+INSERT INTO people (name, age, job, major) VALUES ("Okkar", 25, "Cloud Engineer", "Network Engineering");
+
+SELECT * FROM people;
+
+
+
+from flask import request, render_template
+from models import Person
+
+
+def register_routes(app, db):
+    @app.route("/", methods=["POST", "GET"])
+    def index():
+        if request.method == "GET":
+            people = Person.query.all()
+            # return str(people)
+            return render_template("index.html", people=people)
+
+        elif request.method == "POST":
+            name = request.form["name"]
+            age = int(request.form["age"])
+            job = request.form.get("job")
+            major = request.form.get("major")
+
+            # adding person data into database
+            person = Person(name=name, age=age, job=job, major=major)
+            db.session.add(person)
+            db.session.commit()
+
+            people = Person.query.all()
+            return render_template("index.html", people=people)
+
+
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
+db = SQLAlchemy()
+
+
+def create_app():
+    app = Flask(__name__, template_folder="templates", static_folder="static")
+    # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///./testdb.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:Postgres081922@localhost:5433/people_db"
+
+    db.init_app(app)
+
+    # imports
+    from routes import register_routes
+    register_routes(app, db)
+
+    migrate = Migrate(app, db)
+    
+    return app
+
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:Postgres081922@localhost:5433/people_db"
+
+flask db migrate 
+flask db upgrade
+
+
+    <script type="text/javascript">
+
+        function deletePerson (pid) {
+            fetch('{{ url_for("delete", pid=0) }}'.slice(0, -1) + pid, {
+                method: "DELETE"
+            }).then(res => {
+                if (res.ok){
+                    window.location.reload(); // in react, auto-reload => remove the element from the DOM
+                } else {
+                    console.error("Failed to delete item with pid : ", pid)
+                }
+            }).catch(err => console.error("Error during fetching : ", err))
+        }   
+
+    </script>
+
+
+        <script type="text/javascript">
+
+        // delete?pid=pid0 => will not work
+        function deletePerson (pid) {
+            fetch('{{ url_for("delete", pid=pid) }}' + pid, { 
+                method: "DELETE"
+            }).then(res => {
+                if (res.ok){
+                    window.location.reload(); // in react, auto-reload => remove the element from the DOM
+                } else {
+                    console.error("Failed to delete item with pid : ", pid)
+                }
+            }).catch(err => console.error("Error during fetching : ", err))
+        }   
+
+    </script>
+
+
+    

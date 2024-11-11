@@ -1,0 +1,18 @@
+.employees{
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    gap: 5px;
+}
+
+.employees input {
+    padding: 7px 10px;
+}
+
+.employees input:last-child {
+    cursor: pointer;
+}
+
+.delBtn {
+    cursor: pointer;
+}

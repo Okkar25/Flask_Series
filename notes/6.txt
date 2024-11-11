@@ -90,3 +90,41 @@ def remove_cookie():
     {% endwith %}
 
 {% endblock %}
+
+
+{% extends "base.html" %}
+
+{% block title %} Login Page{% endblock  %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+{% endblock  %}
+
+{% block content %}
+
+    <h1>Login Form</h1>
+
+    <form action="{{url_for("login")}}" method="POST" class="message_flash">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+
+        <input type="submit" value="Login">
+    </form>
+
+{% endblock  %}
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        username = request.form["username"]
+        password = request.form.get("password")
+
+        if username == "okkar" and password == "open123":
+            flash("Successful Login!")
+            return render_template("sessions_cookies_6.html", my_message="")
+        else:
+            flash("Login Failed")
+            return render_template("sessions_cookies_6.html", my_message="")
