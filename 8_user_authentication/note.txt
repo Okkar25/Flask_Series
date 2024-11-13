@@ -1,0 +1,70 @@
+py -m pip install flask-sqlalchemy flask-migrate Flask 
+
+sqlalchemy => orm => connect db tables with classes 
+
+
+# operational error 
+
+flask db init 
+flask db migrate
+flask db upgrade
+
+sqlite3 testdb.db
+
+
+user authentication 
+
+install flask login and flask bcrypt 
+
+password stored in database => as text => but want to store as hash of password 
+bcrypt => hash password => hashing is one-way street => changing original password into complicated code ( cannot be reversed back )
+two same passwords => hashing is different 
+
+why bcrypt needed => Storing raw (plaintext) passwords is dangerous => Bcrypt adds an essential layer of protection
+
+installation 
+
+py -m pip install flask-login flask-bcrypt
+
+from flask_login import LoginManager
+
+
+
+when cannot find ID => need to delete Id and start with a new one 
+fc8e44ed2d67
+
+DELETE FROM alembic_version;
+
+login manager 
+
+login manager => we need to tell the login manager which function load the user and define that function as user-loader function 
+
+how to tell login manager if a function is a user-loader function 
+
+
+login_manager = LoginManager
+login_manager.init_app(app)
+
+from models import User
+
+@login_manager.user_loader
+def load_user(uid):
+    return User.query.get(uid)
+
+
+when login manager load a user => it gives a user based on uid 
+
+
+*** need to pass bcrypt to the register routes 
+
+    # Bcrypt
+    bcrypt = Bcrypt(app)
+
+    # import from routes
+    from routes import register_routes
+
+    register_routes(app, db, bcrypt)
+
+
+from flask_login import login_user, logout_user
+

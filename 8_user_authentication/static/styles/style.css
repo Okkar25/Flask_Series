@@ -1,0 +1,33 @@
+.students{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    gap: 5px;
+}
+
+.students input {
+    padding: 7px 10px;
+}
+
+.students input:last-child {
+    cursor: pointer;
+}
+
+.delBtn {
+    cursor: pointer;
+}
+
+.signup{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    gap: 5px;
+}
+
+.signup input {
+    padding: 7px 10px;
+}
+
+.signup input:last-child {
+    cursor: pointer;
+}

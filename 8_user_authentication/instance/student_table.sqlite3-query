@@ -1,0 +1,16 @@
+-- database: ./testdb.db
+
+-- INSERT INTO students (name, age, major) VALUES ("Bobby", 60, "Factory Worker"), ("Mike", 30, "Business Management"), ("John", 18, "Electronics Engineering");
+
+-- SELECT * from students 
+
+
+-- UPDATE alembic_version SET version_num = 'fc8e44ed2d67';
+-- DELETE FROM alembic_version;
+-- SELECT * FROM alembic_version;
+
+-- INSERT INTO users (username, password) VALUES ("Okkar Aung", "open123");
+
+-- SELECT * FROM users;
+
+DELETE FROM users;

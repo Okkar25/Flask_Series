@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} Blog Page {% endblock %}
+
+{% block content %}
+
+    <h2>Sign Up Page</h2>
+
+    <form class="signup" action="{{ url_for("signup") }}" method="POST">
+
+        <input type="text" name="username" placeholder="Username" requirerd>
+        <input type="text" name="password" placeholder="Password" requirerd>
+
+        <input type="submit" value="Sign Up">
+
+    </form>
+
+{% endblock %}
+
