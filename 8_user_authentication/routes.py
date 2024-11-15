@@ -21,6 +21,10 @@ def register_routes(app, db, bcrypt):
             username = request.form["username"]
             password = request.form["password"]
 
+            # Check if username already exists
+            if User.query.filter_by(username=username).first():
+                return "This username already exists!"
+
             hashed_password = bcrypt.generate_password_hash(password)
 
             user = User(username=username, password=hashed_password)
@@ -40,7 +44,7 @@ def register_routes(app, db, bcrypt):
 
             user = User.query.filter(User.username == username).first()
 
-            if bcrypt.check_password_hash(user.password, password):
+            if user and bcrypt.check_password_hash(user.password, password):
                 login_user(user)
                 # return render_template("index.html")
                 return redirect(url_for("index"))
@@ -62,7 +66,11 @@ def register_routes(app, db, bcrypt):
     @app.route("/secret")
     @login_required
     def secret():
-        return "You are logged in as Admin"
+        # if current_user.is_authenticated and current_user.role == "admin":
+        if current_user.is_authenticated:
+            return "You are logged in as Admin"
+        else:
+            return "You are not authorized as Admin"
 
     # def secret():
     #     if current_user.role == "admin":

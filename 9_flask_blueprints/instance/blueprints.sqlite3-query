@@ -1,0 +1,5 @@
+-- database: ./blueprints.db 
+
+SELECT * FROM people;
+SELECT * FROM todos;
+
