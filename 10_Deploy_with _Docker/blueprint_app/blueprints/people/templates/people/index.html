@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}People Page{% endblock  %}
+
+{% block content %}
+
+    <ul>
+        {% for person in people %}
+            <li>
+                {{ person }} 
+                <button onclick="deletePerson({{ person.pid }})">Delete</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Go to Create Person</h3>
+    <a href="{{url_for("people.create")}}">Create Person</a>
+
+    <script type="text/javascript">
+
+        const deletePerson = (pid) => {
+            fetch('{{url_for("people.delete", pid=pid)}}' + pid, {
+                method: "DELETE"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+
+                    window.location.reload()
+
+                } else {
+                    console.error("Failed to delete item with pid : ", pid)
+                }
+            }).catch(err => console.error("Error during fetching : ", err))
+        }
+
+    </script>
+
+{% endblock  %}

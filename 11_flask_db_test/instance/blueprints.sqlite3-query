@@ -1,0 +1,14 @@
+-- database: ./blueprints.db
+
+
+-- SELECT * FROM people;
+-- SELECT * FROM todos;
+
+INSERT INTO people (name,age, job) VALUES ("Okkar Aung", 23, "Web Developer"), ("ALex", 35, "Data Analyst"), ("Deborah", 18, "ML Engineer"), ("Bob", 60, "Security"), ("Sarah", 32, "Waitress");
+
+SELECT * FROM people;
+
+
+INSERT INTO todos (title, description, done) VALUES ("Learn Django", "Python popular frameworks", 0), ("Develop Pizza API with Flask", "Revise Flask concepts", 1), ("Develop notification features", "Important **", 0), ("Learn React", "Integrate API with Express using TypeScript", 1);
+
+SELECT * FROM todos;

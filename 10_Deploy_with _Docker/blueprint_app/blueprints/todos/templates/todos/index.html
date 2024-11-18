@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Todos Page{% endblock  %}
+
+{% block content %}
+
+    <ul>
+        {% for todo in todos %}
+            <li>
+                {{ todo }}
+                <button onclick="deleteTodo({{ todo.tid }})">Delete</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Go to Create Todos</h3>
+    <a href="{{url_for("todos.create")}}">Create Todos</a>
+
+
+    <script type="text/javascript">
+
+        const deleteTodo = (tid) => {
+            fetch('{{url_for("todos.delete", tid=tid)}}' + tid, {
+                method: "DELETE"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+
+                    window.location.reload()
+
+                } else {
+                    console.error("Failed to delete item with pid : ", tid)
+                }
+            }).catch(err => console.error("Error during fetching : ", err))
+        }
+
+    </script>
+
+{% endblock  %}
